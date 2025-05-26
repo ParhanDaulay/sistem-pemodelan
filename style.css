@@ -8,8 +8,8 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f8fafc;
-  color: #1e293b;
+  background-color: #f1f8e9;
+  color: #37474f;
   line-height: 1.6;
 }
 
@@ -65,8 +65,8 @@ header.hero > * {
 }
 
 .cta-button {
-  background-color: white;
-  color: #2563eb;
+  background-color: #ffffff;
+  color: #2e7d32;
   padding: 14px 30px;
   font-weight: bold;
   border-radius: 10px;
@@ -76,13 +76,13 @@ header.hero > * {
 }
 
 .cta-button:hover {
-  background-color: #e0f2fe;
+  background-color: #e8f5e9;
   transform: translateY(-3px);
 }
 
 /* === NAVBAR HEADER === */
 header.nav {
-  background-color: #2563eb;
+  background-color: #4e342e;
   color: white;
   padding: 20px;
   text-align: center;
@@ -94,11 +94,10 @@ header.nav {
 .container {
   max-width: 1100px;
   margin: 40px auto;
-  background-color: white;
+  background-color: #ffffff;
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-  transition: box-shadow 0.3s ease-in-out;
 }
 
 .section:hover,
@@ -108,13 +107,13 @@ header.nav {
 
 .section h2,
 .container h2 {
-  color: #1e3a8a;
+  color: #2e7d32;
   margin-bottom: 20px;
   font-size: 2rem;
 }
 
 h1, h2 {
-  color: #54d05fe7;
+  color: #2e7d32;
 }
 
 /* === FORM === */
@@ -133,7 +132,7 @@ form {
 
 label {
   font-weight: 600;
-  color: #1e293b;
+  color: #37474f;
   margin-bottom: 8px;
   font-size: 0.95rem;
 }
@@ -142,7 +141,7 @@ input,
 select,
 textarea {
   padding: 12px 15px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #c5e1a5;
   border-radius: 10px;
   background-color: #f9fafb;
   font-size: 1rem;
@@ -153,9 +152,9 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: #2563eb;
+  border-color: #81c784;
   outline: none;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 0 0 4px rgba(129, 199, 132, 0.3);
 }
 
 textarea {
@@ -164,20 +163,20 @@ textarea {
 }
 
 .error-message {
-  color: #dc2626;
+  color: #c62828;
   font-size: 0.875rem;
   margin-top: 4px;
   display: none;
 }
 
 input.invalid {
-  border-color: #dc2626;
+  border-color: #c62828;
 }
 
 button {
   grid-column: 1 / -1;
   padding: 16px;
-  background: linear-gradient(to right, #2563eb, #1d4ed8);
+  background: linear-gradient(to right, #2e7d32, #388e3c);
   color: white;
   border: none;
   border-radius: 12px;
@@ -185,11 +184,11 @@ button {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s;
-  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
 }
 
 button:hover {
-  background-color: #1e40af;
+  background-color: #1b5e20;
   transform: translateY(-2px);
 }
 
@@ -198,7 +197,7 @@ canvas {
   margin-bottom: 40px;
   max-width: 100%;
   border-radius: 12px;
-  background-color: #f8fafc;
+  background-color: #f1f8e9;
   padding: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
@@ -207,7 +206,7 @@ canvas {
 footer {
   text-align: center;
   padding: 25px;
-  background-color: #1e3a8a;
+  background-color: #4e342e;
   color: white;
   margin-top: 50px;
   border-top-left-radius: 20px;
@@ -221,7 +220,7 @@ footer {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #38a169;
+  background-color: #2e7d32;
   color: #fff;
   padding: 12px 28px;
   border-radius: 6px;
@@ -240,7 +239,7 @@ footer {
   opacity: 1;
 }
 
-/* === RESPONSIVE BREAKPOINTS === */
+/* === RESPONSIVE === */
 @media (max-width: 1024px) {
   .hero h1 {
     font-size: 2.5rem;
