@@ -1,3 +1,4 @@
+/* === GLOBAL === */
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -5,69 +6,322 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f1f5f9;
   margin: 0;
   padding: 0;
+  background-color: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
 }
 
-header {
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* === HEADER / HERO LANDING === */
+header.hero {
+  position: relative;
+  color: white;
+  text-align: center;
+  padding: 120px 20px 100px;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+  background-image: url('https://images.pexels.com/photos/3174349/pexels-photo-3174349.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+header.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  z-index: 0;
+}
+
+header.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  margin-bottom: 35px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-button {
+  background-color: white;
+  color: #2563eb;
+  padding: 14px 30px;
+  font-weight: bold;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button:hover {
+  background-color: #e0f2fe;
+  transform: translateY(-3px);
+}
+
+/* === NAVBAR HEADER === */
+header.nav {
   background-color: #2563eb;
   color: white;
   padding: 20px;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* === SECTION / CONTAINER === */
+.section,
 .container {
   max-width: 1100px;
   margin: 40px auto;
   background-color: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.section:hover,
+.container:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.section h2,
+.container h2 {
+  color: #1e3a8a;
+  margin-bottom: 20px;
+  font-size: 2rem;
 }
 
 h1, h2 {
-  color: #1e293b;
+  color: #54d05fe7;
 }
 
+/* === FORM === */
 form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-bottom: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px 30px;
+  margin-bottom: 40px;
+  padding: 10px 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
 
 label {
   font-weight: 600;
-  margin-bottom: 5px;
-  display: block;
+  color: #1e293b;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
 }
 
-input {
-  padding: 10px;
-  width: 100%;
+input,
+select,
+textarea {
+  padding: 12px 15px;
   border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  background-color: #f8fafc;
+  border-radius: 10px;
+  background-color: #f9fafb;
+  font-size: 1rem;
+  transition: border 0.3s, box-shadow 0.3s;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  display: none;
+}
+
+input.invalid {
+  border-color: #dc2626;
 }
 
 button {
   grid-column: 1 / -1;
-  padding: 15px;
-  background-color: #2563eb;
+  padding: 16px;
+  background: linear-gradient(to right, #2563eb, #1d4ed8);
   color: white;
   border: none;
-  border-radius: 10px;
-  font-size: 1.1em;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease, transform 0.2s;
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
 }
 
 button:hover {
-  background-color: #1d4ed8;
+  background-color: #1e40af;
+  transform: translateY(-2px);
 }
 
+/* === CHART === */
 canvas {
   margin-bottom: 40px;
+  max-width: 100%;
+  border-radius: 12px;
+  background-color: #f8fafc;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* === FOOTER === */
+footer {
+  text-align: center;
+  padding: 25px;
+  background-color: #1e3a8a;
+  color: white;
+  margin-top: 50px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+/* === CUSTOM ALERT === */
+#customAlert {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #38a169;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 4px 12px rgba(56, 161, 105, 0.4);
+  z-index: 1000;
+  user-select: none;
+  cursor: default;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+#customAlert.show {
+  display: block;
+  opacity: 1;
+}
+
+/* === RESPONSIVE BREAKPOINTS === */
+@media (max-width: 1024px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+  }
+
+  .section,
+  .container {
+    margin: 30px 20px;
+    padding: 30px;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  header.hero {
+    padding: 80px 15px 60px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .section,
+  .container {
+    margin: 20px;
+    padding: 25px;
+  }
+
+  .cta-button {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+
+  button {
+    font-size: 1em;
+    padding: 14px;
+  }
+
+  footer {
+    font-size: 0.9rem;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.7rem;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+  }
+
+  .cta-button {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
+  }
+
+  .section,
+  .container {
+    padding: 20px;
+    margin: 15px;
+  }
+
+  canvas {
+    padding: 5px;
+  }
+
+  form {
+    gap: 20px;
+  }
 }

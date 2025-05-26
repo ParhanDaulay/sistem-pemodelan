@@ -1,6 +1,14 @@
-document.getElementById('simulasiForm').addEventListener('submit', function(e) {
+let tahunSimulasi = [];
+let luasLahan = [];
+let jumlahPenduduk = [];
+let volumeSampahKg = [];
+
+const customAlert = document.getElementById('customAlert');
+
+document.getElementById('simulasiForm').addEventListener('submit', function (e) {
   e.preventDefault();
 
+  // Ambil nilai input dan parsing ke tipe data yang sesuai
   const pendudukAwal = parseFloat(document.getElementById('pendudukAwal').value);
   const pertumbuhan = parseFloat(document.getElementById('pertumbuhanPenduduk').value) / 100;
   const sampahPerKapita = parseFloat(document.getElementById('sampahPerKapita').value);
@@ -10,136 +18,173 @@ document.getElementById('simulasiForm').addEventListener('submit', function(e) {
   const tahunAwal = parseInt(document.getElementById('tahunAwal').value);
   const tahunAkhir = parseInt(document.getElementById('tahunAkhir').value);
 
-  const tahunSimulasi = [];
-  const luasLahan = [];
-  const jumlahPenduduk = [];
-  const volumeSampahKg = [];
+  // Reset array hasil simulasi
+  tahunSimulasi = [];
+  luasLahan = [];
+  jumlahPenduduk = [];
+  volumeSampahKg = [];
 
-
+  // Mulai simulasi
   let penduduk = pendudukAwal;
 
   for (let tahun = tahunAwal; tahun <= tahunAkhir; tahun++) {
-    // Hitung volume sampah tahunan (kg)
-    const volumeSampah = penduduk * sampahPerKapita * 365;
-    const volumeBersih = volumeSampah * (1 - daurUlang); // dikurangi daur ulang
-    const volumeM3 = volumeBersih / kepadatan; // kg -> m3
-    const lahan = volumeM3 / tinggiTPA; // m²
+    const volumeSampah = penduduk * sampahPerKapita * 365; // kg/tahun
+    const volumeBersih = volumeSampah * (1 - daurUlang);   // volume setelah daur ulang
+    const volumeM3 = volumeBersih / kepadatan;             // volume dalam m³
+    const lahan = volumeM3 / tinggiTPA;                     // luas lahan dalam m²
 
     tahunSimulasi.push(tahun);
-    luasLahan.push(lahan.toFixed(2));
-    jumlahPenduduk.push(penduduk.toFixed(0));
-    volumeSampahKg.push(volumeBersih.toFixed(0));
+    luasLahan.push(parseFloat(lahan.toFixed(2)));
+    jumlahPenduduk.push(Math.round(penduduk));
+    volumeSampahKg.push(Math.round(volumeBersih));
 
-
-    penduduk = penduduk * (1 + pertumbuhan); // tumbuh setiap tahun
+    // Update penduduk untuk tahun berikutnya
+    penduduk = penduduk * (1 + pertumbuhan);
   }
 
+  // Tampilkan alert custom dengan efek fade in
+  customAlert.style.display = 'block';
+  // Pakai class show agar CSS transisi opacity berjalan
+  setTimeout(() => customAlert.classList.add('show'), 10);
 
-    // Grafik Penduduk
-  if (window.chartPenduduk) window.chartPenduduk.destroy();
-  const ctxPenduduk = document.getElementById('grafikPenduduk').getContext('2d');
-  window.chartPenduduk = new Chart(ctxPenduduk, {
-    type: 'line',
-    data: {
-      labels: tahunSimulasi,
-      datasets: [{
-        label: 'Jumlah Penduduk',
-        data: jumlahPenduduk,
-        borderColor: '#10b981',
-        backgroundColor: 'rgba(16, 185, 129, 0.2)',
-        fill: true,
-        tension: 0.2
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Penduduk'
-          }
-        },
-        x: {
-          title: {
-            display: true,
-            text: 'Tahun'
-          }
-        }
-      }
-    }
-  });
+  // Hilangkan alert setelah 3 detik dengan fade out
+  setTimeout(() => {
+    customAlert.classList.remove('show');
+    // Setelah transisi selesai (300ms), sembunyikan element dari layout
+    setTimeout(() => {
+      customAlert.style.display = 'none';
+    }, 300);
+  }, 3000);
+});
 
-  // Grafik Sampah
-  if (window.chartSampah) window.chartSampah.destroy();
-  const ctxSampah = document.getElementById('grafikSampah').getContext('2d');
-  window.chartSampah = new Chart(ctxSampah, {
-    type: 'line',
-    data: {
-      labels: tahunSimulasi,
-      datasets: [{
-        label: 'Volume Sampah (kg/tahun)',
-        data: volumeSampahKg,
-        borderColor: '#f59e0b',
-        backgroundColor: 'rgba(245, 158, 11, 0.2)',
-        fill: true,
-        tension: 0.2
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Sampah (kg)'
-          }
-        },
-        x: {
-          title: {
-            display: true,
-            text: 'Tahun'
-          }
-        }
-      }
-    }
-  });
-
-  if (window.chartLahan) window.chartLahan.destroy();
-
-  const ctx = document.getElementById('grafikLahan').getContext('2d');
-  window.chartLahan = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: tahunSimulasi,
-      datasets: [{
-        label: 'Estimasi Luas Lahan TPA (m²)',
-        data: luasLahan,
-        borderColor: '#2563eb',
-        backgroundColor: 'rgba(37, 99, 235, 0.2)',
-        fill: true,
-        tension: 0.2
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Luas Lahan (m²)'
-          }
-        },
-        x: {
-          title: {
-            display: true,
-            text: 'Tahun'
-          }
-        }
-      }
+// Hilangkan alert saat user mulai mengubah input (juga dengan fade out)
+const inputs = document.querySelectorAll('#simulasiForm input');
+inputs.forEach(input => {
+  input.addEventListener('input', () => {
+    if (customAlert.classList.contains('show')) {
+      customAlert.classList.remove('show');
+      setTimeout(() => {
+        customAlert.style.display = 'none';
+      }, 300);
     }
   });
 });
+
+
+// Fungsi-fungsi tampilkan hasil (tidak diubah)
+function tampilkanHasil() {
+  const grafik = document.getElementById("grafikLuasTPA");
+  const tabel = document.getElementById("tabelHasil");
+  const laju = document.getElementById("lajuSampah");
+  const total = document.getElementById("totalLahan");
+  const ekspansi = document.getElementById("ekspansiTPA");
+
+  grafik.style.display = "none";
+  tabel.style.display = "none";
+  laju.style.display = "none";
+  total.style.display = "none";
+  ekspansi.style.display = "none";
+
+  const pilihan = Array.from(document.querySelectorAll('input[name="output"]:checked')).map(e => e.value);
+
+  if (pilihan.includes("grafik")) {
+    grafik.style.display = "block";
+    tampilkanGrafikLuasTPA();
+  }
+  if (pilihan.includes("tabel")) {
+    tabel.style.display = "block";
+    tampilkanTabel();
+  }
+  if (pilihan.includes("laju")) {
+    laju.style.display = "block";
+    tampilkanLajuPertumbuhan();
+  }
+  if (pilihan.includes("total")) {
+    total.style.display = "block";
+    tampilkanTotalLahan();
+  }
+  if (pilihan.includes("ekspansi")) {
+    ekspansi.style.display = "block";
+    tampilkanLajuEkspansi();
+  }
+}
+
+
+function tampilkanGrafikLuasTPA() {
+  const ctx = document.getElementById("grafikLuasTPA").getContext("2d");
+
+  // Jika chart sudah ada, hapus dulu supaya tidak terjadi duplikat
+  if (window.chartLuas) window.chartLuas.destroy();
+
+  window.chartLuas = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: tahunSimulasi,
+      datasets: [{
+        label: "Estimasi Luas Lahan TPA (m²)",
+        data: luasLahan,
+        borderColor: "#2563eb",
+        backgroundColor: "rgba(37, 99, 235, 0.2)",
+        fill: true,
+        tension: 0.2,
+      }],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true },
+        x: { title: { display: true, text: "Tahun" } },
+      },
+    },
+  });
+}
+
+function tampilkanTabel() {
+  const container = document.getElementById("tabelContainer");
+  let html = `
+    <table border="1" cellspacing="0" cellpadding="4">
+      <thead>
+        <tr>
+          <th>Tahun</th>
+          <th>Jumlah Penduduk</th>
+          <th>Volume Sampah (kg)</th>
+          <th>Luas Lahan (m²)</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  for (let i = 0; i < tahunSimulasi.length; i++) {
+    html += `
+      <tr>
+        <td>${tahunSimulasi[i]}</td>
+        <td>${jumlahPenduduk[i].toLocaleString()}</td>
+        <td>${volumeSampahKg[i].toLocaleString()}</td>
+        <td>${luasLahan[i].toLocaleString()}</td>
+      </tr>
+    `;
+  }
+
+  html += "</tbody></table>";
+  container.innerHTML = html;
+}
+
+function tampilkanLajuPertumbuhan() {
+  const growth = ((volumeSampahKg[volumeSampahKg.length - 1] - volumeSampahKg[0]) / volumeSampahKg[0]) * 100;
+  document.getElementById("lajuSampahText").textContent = 
+    `Laju pertumbuhan volume sampah selama periode ${tahunSimulasi[0]}-${tahunSimulasi[tahunSimulasi.length - 1]} adalah sekitar ${growth.toFixed(2)}%.`;
+}
+
+function tampilkanTotalLahan() {
+  const total = luasLahan.reduce((acc, val) => acc + val, 0);
+  document.getElementById("totalLahanText").textContent = 
+    `Total estimasi kebutuhan lahan TPA selama ${tahunSimulasi.length} tahun adalah sekitar ${total.toFixed(2).toLocaleString()} m².`;
+}
+
+function tampilkanLajuEkspansi() {
+  const awal = luasLahan[0];
+  const akhir = luasLahan[luasLahan.length - 1];
+  const persen = ((akhir - awal) / awal) * 100;
+  document.getElementById("ekspansiTPAText").textContent = 
+    `Laju ekspansi kebutuhan lahan dari tahun pertama ke terakhir meningkat sekitar ${persen.toFixed(2)}%.`;
+}
